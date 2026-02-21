@@ -20,7 +20,11 @@ fun ConstraintLayoutScreen() {
         .verticalScroll(rememberScrollState())
     ) {
         val (gradientBackground, profileImage, notificationImage,
-            welcomeText, questionText, joinNowButton, image) = createRefs()
+            welcomeText, questionText, joinNowButton, image, card, coursesText, courseImageAndroid,
+            courseImageJava, courseImagePython,
+            androidText, javaText, pythonText) = createRefs()
+
+        val (latestLessonText, seeAllText, lessonCard) = createRefs()
 
         val horizontalGuideline = createGuidelineFromBottom(0.45f)
 
@@ -77,13 +81,84 @@ fun ConstraintLayoutScreen() {
 
 
         Image(modifier = Modifier.constrainAs(image){
-            bottom.linkTo(horizontalGuideline, margin = 12.dp)
+            bottom.linkTo(horizontalGuideline, margin = 32.dp)
             end.linkTo(endGuideline)
 
-            start.linkTo(joinNowButton.end, margin = 8.dp)
+//            start.linkTo(joinNowButton.end, margin = 8.dp)
 
             width = Dimension.value(250.dp)
             height = Dimension.value(280.dp)
+        })
+
+
+        MyCard(modifier = Modifier.constrainAs(card){
+            top.linkTo(horizontalGuideline, margin = (-32).dp)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            bottom.linkTo(parent.bottom)
+            width = Dimension.fillToConstraints
+            height = Dimension.fillToConstraints
+        })
+
+        TextOurCourses(modifier = Modifier.constrainAs(coursesText){
+            top.linkTo(card.top, margin = 16.dp)
+            start.linkTo(card.start, margin = 20.dp)
+        })
+
+        AndroidCourseImage(modifier = Modifier.constrainAs(courseImageAndroid){
+            top.linkTo(coursesText.bottom, margin = 16.dp)
+        })
+
+        JavaCourseImage(modifier = Modifier.constrainAs(courseImageJava){
+            top.linkTo(courseImageAndroid.top)
+            bottom.linkTo(courseImageAndroid.bottom)
+        })
+
+        PythonCourseImage(modifier = Modifier.constrainAs(courseImagePython){
+            top.linkTo(courseImageAndroid.top)
+            bottom.linkTo(courseImageAndroid.bottom)
+        })
+
+        createHorizontalChain(
+            courseImageAndroid, courseImageJava, courseImagePython,
+            chainStyle = ChainStyle.Spread
+        )
+
+        AndroidText(modifier = Modifier.constrainAs(androidText){
+            top.linkTo(courseImageAndroid.bottom, margin = 12.dp)
+            start.linkTo(courseImageAndroid.start)
+            end.linkTo(courseImageAndroid.end)
+        })
+
+        JavaText(modifier = Modifier.constrainAs(javaText){
+            top.linkTo(courseImageJava.bottom, margin = 12.dp)
+            start.linkTo(courseImageJava.start)
+            end.linkTo(courseImageJava.end)
+        })
+
+        PythonText(modifier = Modifier.constrainAs(pythonText){
+            top.linkTo(courseImagePython.bottom, margin = 12.dp)
+            start.linkTo(courseImagePython.start)
+            end.linkTo(courseImagePython.end)
+        })
+
+        LatestLessonsText(modifier = Modifier.constrainAs(latestLessonText){
+            top.linkTo(androidText.bottom, margin = 20.dp)
+            start.linkTo(startGuideline)
+        })
+
+        SeeAllText(modifier = Modifier.constrainAs(seeAllText){
+            top.linkTo(androidText.bottom, margin = 20.dp)
+            end.linkTo(endGuideline)
+        })
+
+
+        LatestLessonCard(modifier = Modifier.constrainAs(lessonCard){
+            top.linkTo(latestLessonText.bottom, margin = 16.dp)
+            start.linkTo(latestLessonText.start)
+            end.linkTo(endGuideline)
+            width = Dimension.fillToConstraints
+            height = Dimension.wrapContent
         })
     }
 }
